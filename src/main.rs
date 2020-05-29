@@ -39,7 +39,7 @@ impl FileEntry {
 impl fmt::Display for FileEntry {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let parsed_date: DateTime<Utc> = DateTime::from(self.modified_at);
-        write!(f, "Modified: {:?} | Full path: {:?} | Filename: {:?}", parsed_date, self.full_path, self.file_name)
+        write!(f, "Filename: {:?}\nFull path: {:?}\nModified: {:?}", self.file_name, self.full_path, parsed_date)
     }
 }
 
