@@ -63,7 +63,7 @@ impl fmt::Display for FileEntry {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let modified_date: DateTime<Local> = DateTime::from(self.modified_at);
         let created_date: DateTime<Local> = DateTime::from(self.created_at);
-        write!(f, "\nFilename: {:?}\nFull path: {:?}\nModified: {:?}\nCreated: {:?}\nDirectory: {:?}\n", self.file_name, self.full_path, modified_date, created_date,     self.is_directory)
+        write!(f, "\nFilename: {:?}\nFull path: {:?}\nModified: {:?}\nCreated: {:?}\nDirectory: {:?}\n", self.file_name, self.full_path, modified_date, created_date, self.is_directory)
     }
 }
 
