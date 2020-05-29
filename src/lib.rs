@@ -17,6 +17,9 @@ pub struct Cli {
 
     #[structopt(short = "f")]
     pub faulty_files: bool,
+
+    #[structopt(short = "d")]
+    pub directory: bool,
 }
 
 pub struct FileEntry {
@@ -67,25 +70,30 @@ impl fmt::Display for FileEntry {
     }
 }
 
-pub fn parse_dir(dir_path: PathBuf, mut latest_file: &mut FileEntry, exclude: &String, faulty: bool) {
+pub fn parse_dir(dir_path: PathBuf, mut latest_file: &mut FileEntry, exclude: &String, faulty: bool, directory: bool) {
     
     if let Ok(dir_list) = fs::read_dir(dir_path) {
         
         for p in dir_list {
         
             if let Ok(path) = p {
-            
+
                 if path.file_name().into_string().unwrap().contains(exclude) {
                     continue;
                 }
 
                 if let Ok(metadata) = fs::metadata(&path.path()) {
-    
+
                     if metadata.is_dir() == true {
-                        parse_dir(path.path(), &mut latest_file, exclude, faulty);
+                        parse_dir(path.path(), &mut latest_file, exclude, faulty, directory);
                     }
         
                     if metadata.modified().unwrap() > latest_file.modified_at {
+                        if metadata.is_dir() == true {
+                            if !directory {
+                                continue;
+                            }
+                        }
                         latest_file.update(&path)
                     }
            
